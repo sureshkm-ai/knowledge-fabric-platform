@@ -1,9 +1,32 @@
+<<<<<<< HEAD
+"""Structured observability event schemas."""
+from __future__ import annotations
+
+from typing import Any
+
+from pydantic import BaseModel, Field
+
+=======
 from pydantic import BaseModel
 from typing import Any
 
+>>>>>>> main
 
 class TraceEvent(BaseModel):
     trace_id: str
     event_type: str
+<<<<<<< HEAD
+    payload: dict[str, Any] = Field(default_factory=dict)
+    ts: float
+
+
+class TraceSummary(BaseModel):
+    trace_id: str
+    event_count: int
+    route: str | None = None
+    validation_notes: list[str] = Field(default_factory=list)
+    total_latency_ms: float | None = None
+=======
     payload: dict[str, Any]
     ts: float
+>>>>>>> main

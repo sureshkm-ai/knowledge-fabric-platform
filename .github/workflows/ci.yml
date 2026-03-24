@@ -1,5 +1,9 @@
 name: ci
 on: [push, pull_request]
+<<<<<<< HEAD
+
+=======
+>>>>>>> main
 jobs:
   test:
     runs-on: ubuntu-latest
@@ -14,6 +18,13 @@ jobs:
       - run: python -m src.knowledge.generate_sources
       - run: pytest -q
       - run: python - <<'PY'
+<<<<<<< HEAD
+from src.evaluation.run_eval import run_eval, summarize_eval
+rows = run_eval(lambda q: {"route": "mixed", "answer": "Texas sales grounded answer"})
+print(rows)
+print(summarize_eval(rows))
+=======
 from src.evaluation.run_eval import run_eval
 print(run_eval(lambda q: {"route":"mixed","answer":"Texas sales explanation"}))
+>>>>>>> main
 PY

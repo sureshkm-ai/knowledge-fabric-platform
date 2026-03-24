@@ -1,4 +1,10 @@
+<<<<<<< HEAD
+"""Observability logging adapters."""
+from __future__ import annotations
+
+=======
 import json
+>>>>>>> main
 import time
 from pathlib import Path
 from uuid import uuid4
@@ -18,6 +24,16 @@ class ObservabilityLogger:
     def log(self, trace_id: str, event_type: str, payload: dict):
         event = TraceEvent(trace_id=trace_id, event_type=event_type, payload=payload, ts=time.time())
         if self.backend == "jsonl":
+<<<<<<< HEAD
+            with self.path.open("a", encoding="utf-8") as f:
+                f.write(event.model_dump_json() + "\n")
+            return
+
+        # enterprise adapters can emit to BigQuery/Cloud Logging with same event envelope.
+        with self.path.open("a", encoding="utf-8") as f:
+            f.write(event.model_dump_json() + "\n")
+=======
             with self.path.open("a") as f:
                 f.write(event.model_dump_json() + "\n")
         # enterprise adapter hooks (BigQuery / Cloud Logging) go here
+>>>>>>> main
