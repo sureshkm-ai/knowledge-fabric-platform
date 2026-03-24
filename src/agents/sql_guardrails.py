@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 """Strict SQL guardrails for semantic-layer-only querying."""
 from __future__ import annotations
 
-=======
->>>>>>> main
 import re
 
 APPROVED_OBJECTS = {
@@ -15,7 +12,6 @@ APPROVED_OBJECTS = {
     "semantic_metric_dictionary",
 }
 
-<<<<<<< HEAD
 DENYLIST_TOKENS = [
     "insert ",
     "update ",
@@ -58,20 +54,4 @@ def validate_sql(sql: str, max_limit: int = 1000, require_limit: bool = True) ->
     if limit_match and int(limit_match.group(1)) > max_limit:
         return False, f"LIMIT exceeds maximum of {max_limit}"
 
-=======
-
-def validate_sql(sql: str, max_limit: int = 1000) -> tuple[bool, str]:
-    text = sql.strip().lower()
-    if any(x in text for x in ["insert ", "update ", "delete ", "create ", "drop ", "alter ", "truncate "]):
-        return False, "DDL/DML not permitted"
-    if ";" in text[:-1]:
-        return False, "multiple statements not permitted"
-    tables = re.findall(r"from\s+([a-zA-Z0-9_\.]+)", text) + re.findall(r"join\s+([a-zA-Z0-9_\.]+)", text)
-    bad = [t.split(".")[-1] for t in tables if t.split(".")[-1] not in APPROVED_OBJECTS]
-    if bad:
-        return False, f"unapproved objects: {bad}"
-    lim = re.search(r"limit\s+(\d+)", text)
-    if lim and int(lim.group(1)) > max_limit:
-        return False, "limit too high"
->>>>>>> main
     return True, "ok"

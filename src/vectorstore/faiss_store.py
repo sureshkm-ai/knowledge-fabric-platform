@@ -1,15 +1,9 @@
-<<<<<<< HEAD
 """FAISS-like local vector store (numpy-based fallback for portability)."""
 from __future__ import annotations
 
 import numpy as np
 
 from src.vectorstore.base import BaseVectorStore, RetrievedDoc, metadata_matches
-=======
-import numpy as np
-
-from src.vectorstore.base import BaseVectorStore, RetrievedDoc
->>>>>>> main
 
 
 class FaissVectorStore(BaseVectorStore):
@@ -22,7 +16,6 @@ class FaissVectorStore(BaseVectorStore):
     def query(self, vector: list[float], top_k: int = 5, filters: dict | None = None) -> list[RetrievedDoc]:
         if not self.items:
             return []
-<<<<<<< HEAD
 
         q = np.array(vector)
         hits: list[RetrievedDoc] = []
@@ -34,14 +27,4 @@ class FaissVectorStore(BaseVectorStore):
             score = float(np.dot(q, v) / (np.linalg.norm(q) * np.linalg.norm(v) + 1e-9))
             hits.append(RetrievedDoc(item["doc_id"], item["text"], score, metadata))
 
-=======
-        q = np.array(vector)
-        hits: list[RetrievedDoc] = []
-        for item in self.items:
-            if filters and any(item.get("metadata", {}).get(k) != v for k, v in filters.items()):
-                continue
-            v = np.array(item["vector"])
-            score = float(np.dot(q, v) / (np.linalg.norm(q) * np.linalg.norm(v) + 1e-9))
-            hits.append(RetrievedDoc(item["doc_id"], item["text"], score, item.get("metadata", {})))
->>>>>>> main
         return sorted(hits, key=lambda x: x.score, reverse=True)[:top_k]
