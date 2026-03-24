@@ -1,0 +1,4 @@
+metric_name,definition
+net_sales,"Sum of units * unit_price, excluding returns"
+sell_through,units sold divided by units available
+return_rate,returned units / sold units

@@ -1,3 +1,5 @@
+import re
+
 from src.security.policies import AccessContext, ROLE_POLICIES
 
 
@@ -5,9 +7,21 @@ def filter_sql_by_scope(sql: str, ctx: AccessContext) -> str:
     region_clause = "','".join(ctx.allowed_regions)
     bu_clause = "','".join(ctx.business_units)
     sql = sql.rstrip(" ;")
+    scope_conditions = f"region IN ('{region_clause}') AND business_unit IN ('{bu_clause}')"
+
+    # Find the position of ORDER BY or LIMIT to insert scope before them
+    tail_match = re.search(r"\s+(ORDER\s+BY|LIMIT)\s+", sql, re.IGNORECASE)
+    if tail_match:
+        insert_pos = tail_match.start()
+        core = sql[:insert_pos]
+        tail = sql[insert_pos:]
+        if re.search(r"\bWHERE\b", core, re.IGNORECASE):
+            return f"{core} AND {scope_conditions}{tail}"
+        return f"{core} WHERE {scope_conditions}{tail}"
+
     if " where " in sql.lower():
-        return f"{sql} AND region IN ('{region_clause}') AND business_unit IN ('{bu_clause}')"
-    return f"{sql} WHERE region IN ('{region_clause}') AND business_unit IN ('{bu_clause}')"
+        return f"{sql} AND {scope_conditions}"
+    return f"{sql} WHERE {scope_conditions}"
 
 
 def filter_docs_by_access(docs: list[dict], ctx: AccessContext) -> list[dict]:
