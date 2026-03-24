@@ -13,7 +13,7 @@ CASE WHEN i.on_hand_units < 20 THEN 'risk' ELSE 'healthy' END AS inventory_statu
 c.region, i.business_unit
 FROM inventory_snapshots i
 LEFT JOIN semantic_sales_daily s ON i.date = s.date AND i.club_id = s.club_id AND i.product_id = s.product_id
-JOIN club_master c USING (club_id);
+JOIN club_master c ON i.club_id = c.club_id;
 
 CREATE OR REPLACE VIEW semantic_promo_effectiveness AS
 SELECT p.promo_id, p.product_id, p.promo_type, p.start_date, p.end_date,
