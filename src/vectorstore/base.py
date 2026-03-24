@@ -1,9 +1,14 @@
+<<<<<<< HEAD
 """Vector-store abstractions and common filtering utilities."""
 from __future__ import annotations
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
 from typing import Any
+=======
+from abc import ABC, abstractmethod
+from dataclasses import dataclass
+>>>>>>> main
 
 
 @dataclass
@@ -11,11 +16,16 @@ class RetrievedDoc:
     doc_id: str
     text: str
     score: float
+<<<<<<< HEAD
     metadata: dict[str, Any]
+=======
+    metadata: dict
+>>>>>>> main
 
 
 class BaseVectorStore(ABC):
     @abstractmethod
+<<<<<<< HEAD
     def upsert(self, items: list[dict[str, Any]]) -> None:
         """Insert/update vectorized documents."""
 
@@ -47,3 +57,11 @@ def metadata_matches(metadata: dict[str, Any], filters: dict[str, Any] | None) -
         elif actual != expected:
             return False
     return True
+=======
+    def upsert(self, items: list[dict]) -> None:
+        ...
+
+    @abstractmethod
+    def query(self, vector: list[float], top_k: int = 5, filters: dict | None = None) -> list[RetrievedDoc]:
+        ...
+>>>>>>> main

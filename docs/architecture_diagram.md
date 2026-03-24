@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Architecture Diagram (Narrative)
 
 ## Request lifecycle
@@ -36,3 +37,16 @@ User/BI Analyst
 - Region/business-unit scope is enforced before SQL execution.
 - Documents are filtered by metadata and role classification.
 - Evidence validation runs before final synthesis.
+=======
+# Architecture (Text Diagram)
+
+User -> FastAPI `/ask` -> LangGraph workflow
+- plan/extract entities
+- semantic SQL prep + guardrails
+- SQL execution (DuckDB/BigQuery)
+- hybrid retrieval (vector + BM25 + rerank)
+- evidence validation
+- LLM synthesis
+
+Cross-cutting: RBAC/ABAC, observability, evaluation.
+>>>>>>> main

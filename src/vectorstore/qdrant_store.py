@@ -1,8 +1,12 @@
+<<<<<<< HEAD
 """Qdrant vector-store integration."""
 from __future__ import annotations
 
 from qdrant_client import QdrantClient
 from qdrant_client.models import FieldCondition, Filter, MatchValue, PointStruct
+=======
+from qdrant_client import QdrantClient
+>>>>>>> main
 
 from src.vectorstore.base import BaseVectorStore, RetrievedDoc
 
@@ -13,6 +17,11 @@ class QdrantVectorStore(BaseVectorStore):
         self.collection = collection
 
     def upsert(self, items: list[dict]) -> None:
+<<<<<<< HEAD
+=======
+        from qdrant_client.models import PointStruct
+
+>>>>>>> main
         points = [
             PointStruct(id=i["doc_id"], vector=i["vector"], payload={"text": i["text"], **i.get("metadata", {})})
             for i in items
@@ -20,6 +29,7 @@ class QdrantVectorStore(BaseVectorStore):
         self.client.upsert(collection_name=self.collection, points=points)
 
     def query(self, vector: list[float], top_k: int = 5, filters: dict | None = None) -> list[RetrievedDoc]:
+<<<<<<< HEAD
         qdrant_filter = None
         if filters:
             conditions = []
@@ -37,3 +47,11 @@ class QdrantVectorStore(BaseVectorStore):
             limit=top_k,
         )
         return [RetrievedDoc(str(h.id), (h.payload or {}).get("text", ""), float(h.score), h.payload or {}) for h in hits]
+=======
+        hits = self.client.search(collection_name=self.collection, query_vector=vector, limit=top_k)
+        out = []
+        for h in hits:
+            payload = h.payload or {}
+            out.append(RetrievedDoc(str(h.id), payload.get("text", ""), float(h.score), payload))
+        return out
+>>>>>>> main

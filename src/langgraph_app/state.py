@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 """State contracts for the analytics agent workflow."""
 from __future__ import annotations
 
@@ -25,3 +26,18 @@ class AgentState(BaseModel):
 
     answer: str | None = None
     diagnostics: dict[str, Any] = Field(default_factory=dict)
+=======
+from pydantic import BaseModel
+from typing import Any
+
+
+class AgentState(BaseModel):
+    question: str
+    route: str = "mixed"
+    entities: dict[str, Any] = {}
+    sql: str | None = None
+    sql_result: list[dict] = []
+    docs: list[dict] = []
+    validation_notes: list[str] = []
+    answer: str | None = None
+>>>>>>> main
