@@ -1,9 +1,6 @@
-<<<<<<< HEAD
 """Vertex text embedding provider."""
 from __future__ import annotations
 
-=======
->>>>>>> main
 from vertexai import init
 from vertexai.language_models import TextEmbeddingModel
 
@@ -16,11 +13,8 @@ class VertexEmbeddingsProvider(BaseEmbeddingProvider):
         self.model = TextEmbeddingModel.from_pretrained(model_name)
 
     def embed_documents(self, texts: list[str]) -> list[list[float]]:
-<<<<<<< HEAD
         if not texts:
             return []
-=======
->>>>>>> main
         vectors = self.model.get_embeddings(texts)
         return [v.values for v in vectors]
 

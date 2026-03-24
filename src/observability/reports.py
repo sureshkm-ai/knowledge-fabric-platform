@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 """Trace reporting utilities."""
 from __future__ import annotations
 
@@ -7,17 +6,11 @@ from pathlib import Path
 
 from src.observability.schema import TraceSummary
 
-=======
-import json
-from pathlib import Path
-
->>>>>>> main
 
 def read_trace(trace_id: str, path: str = "logs/traces.jsonl") -> list[dict]:
     p = Path(path)
     if not p.exists():
         return []
-<<<<<<< HEAD
 
     out = []
     with p.open(encoding="utf-8") as f:
@@ -51,11 +44,3 @@ def summarize_trace(trace_id: str, path: str = "logs/traces.jsonl") -> TraceSumm
         validation_notes=validation_notes,
         total_latency_ms=total_latency_ms,
     )
-=======
-    out = []
-    for line in p.read_text().splitlines():
-        row = json.loads(line)
-        if row["trace_id"] == trace_id:
-            out.append(row)
-    return out
->>>>>>> main
